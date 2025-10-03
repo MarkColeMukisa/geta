@@ -6,10 +6,6 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\BillController;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/index', function () {
     $tenants = \App\Models\Tenant::orderBy('name')->get();
     $bills = \App\Models\Bill::with('tenant')->latest('id')->limit(50)->get();
 
@@ -37,6 +33,9 @@ Route::get('/index', function () {
 
     return view('index', compact('tenants','billRows','grandTotal'));
 });
+
+// Redirect /index to root for consistency
+Route::redirect('/index', '/');
 
 Route::get('/dashboard', [TenantController::class, 'index'])
     ->middleware(['auth', 'verified'])

@@ -9,10 +9,25 @@ window.jQuery = $;
 $(function(){
   console.log('DOM ready (billing logic)');
 
-    // $('#resetButton').on('click', function(){
-    //     console.log('Reset button clicked!');
-    //     // Add your reset logic here
-    // });
+    // Auto-fetch previous reading when tenant is selected
+    $('#tenant_id').on('change', function(){
+        const tenantId = $(this).val();
+        if(!tenantId){ 
+            $('#pmReading').val('');
+            return; 
+        }
+        
+        // Fetch previous reading via AJAX
+        $.get(`/tenants/${tenantId}/previous-reading`)
+            .done(function(data){
+                $('#pmReading').val(data.previous_reading);
+                console.log('Previous reading loaded:', data.previous_reading);
+            })
+            .fail(function(){
+                console.error('Failed to fetch previous reading');
+                $('#pmReading').val('0'); // fallback
+            });
+    });
 
     // Preview logic: Generate bill preview without persisting, then allow Save
     $('#generateBill').on('click', function(){
