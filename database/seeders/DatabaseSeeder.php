@@ -13,17 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Default non-admin test user
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'is_admin' => false,
-        ]);
-
+        
         // Admin account for local development
         User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'name' => 'Mark Cole',
+            'email' => 'markcole683@gmail.com',
+            'password' => bcrypt('mukisa256@wave'), // Set a secure password
             'is_admin' => true,
         ]);
     }
