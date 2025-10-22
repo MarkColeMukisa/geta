@@ -15,13 +15,13 @@ class DatabaseSeeder extends Seeder
     {
         // Admin account for local development
         User::factory()->create([
-            'name' => 'Abraham',
-            'email' => 'abraham@gmail.com',
-            'password' => bcrypt('abraham256@wave'), // Set a secure password
+            'name' => 'John Doe',
+            'email' => 'john@gmail.com',
+            'password' => bcrypt('john256@wave'), // Set a secure password
             'is_admin' => true,
         ]);
 
         // Seed Tenants
-        $this->call(\Database\Seeders\TenantSeeder::class);
+        $this->call(TenantSeeder::class);
     }
 }
