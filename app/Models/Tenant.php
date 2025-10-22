@@ -9,16 +9,12 @@ class Tenant extends Model
 {
     use HasFactory;
 
-    public mixed $name;
+    // Attributes are mass-assignable via $fillable; rely on Eloquent's built-in create().
     protected $fillable = [
         'name', 'contact', 'room_number'
     ];
 
-    public static function create(mixed $validated)
-    {
-    }
-
-    public function bills()
+    public function bills(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Bill::class);
     }
