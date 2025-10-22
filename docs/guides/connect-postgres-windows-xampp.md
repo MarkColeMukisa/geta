@@ -113,10 +113,16 @@ If you still see `could not find driver`, confirm `php -m` lists `pdo_pgsql` and
 
 ### Quick checklist
 - [ ] Set `DB_CONNECTION=pgsql` in `.env`
-- [ ] PostgreSQL service running on `127.0.0.1:5432`
+- [ ] PostgresSQL service running on `127.0.0.1:5432`
 - [ ] `listen_addresses` and `pg_hba.conf` allow local TCP
 - [ ] `extension=pdo_pgsql` and `extension=pgsql` enabled in `php.ini`
 - [ ] `php -m` lists `pdo_pgsql` and `pgsql`
 - [ ] `php artisan migrate` runs successfully
 
-If you want, I can add a short note to the project's README linking to this guide.
+To clear any stale autoload/cache on your machine, please run these commands in your project root and share the output if anything fails:
+1)
+composer dump-autoload -o
+1) 
+php artisan optimize:clear
+1) 
+php artisan db:seed --verbose

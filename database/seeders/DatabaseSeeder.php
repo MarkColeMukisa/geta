@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seed Tenants
-        $this->call(TenantSeeder::class);
+        $this->call(\Database\Seeders\TenantSeeder::class);
     }
 }
