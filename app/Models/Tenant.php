@@ -9,9 +9,14 @@ class Tenant extends Model
 {
     use HasFactory;
 
+    public mixed $name;
     protected $fillable = [
         'name', 'contact', 'room_number'
     ];
+
+    public static function create(mixed $validated)
+    {
+    }
 
     public function bills()
     {

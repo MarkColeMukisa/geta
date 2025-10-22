@@ -42,7 +42,7 @@ $user->is_admin = false;
 $user->save();
 ```
 
-## Incase of no User use tinker to create one
+## In case of no User use tinker to create one
 ```
 $user = new \App\Models\User();
 $user->name = 'Admin User';
