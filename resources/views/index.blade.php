@@ -411,35 +411,62 @@
 </div>
 
 
-          <!-- Desktop Navigation -->
-          <div class="hidden lg:flex items-center space-x-3">
-            @php($dashRoute = Route::has('dashboard') ? route('dashboard') : url('/dashboard'))
-            <a href="{{ $dashRoute }}" class="bg-primary text-white px-5 py-2.5 rounded-full font-semibold shadow-md hover:bg-primary/90 transition flex items-center gap-2 group">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
-              </svg>
-              <span>Dashboard</span>
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex items-center space-x-3">
+        @auth
+            <a href="{{ url('/dashboard') }}" 
+                class="bg-primary text-white px-5 py-2.5 rounded-full font-semibold shadow-md hover:bg-primary/90 transition flex items-center gap-2 group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
+                </svg>
+                <span>Dashboard</span>
             </a>
-          </div>
-          <!-- Mobile Menu Button -->
-          <div class="lg:hidden">
-            <button @click="mobileMenu = !mobileMenu" class="text-gray-800 hover:text-primary focus:outline-none">
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenu" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="lg:hidden pb-4" style="display: none;">
-          @php($dashRoute = Route::has('dashboard') ? route('dashboard') : url('/dashboard'))
-          <a href="{{ $dashRoute }}" class="flex py-3 px-4 mt-2 text-white bg-primary rounded-lg font-semibold shadow hover:bg-primary/90 transition items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
-            </svg>
-            Dashboard
-          </a>
-        </div>
+        @else
+            <a href="{{ route('login') }}" 
+                class="bg-white border border-gray-300 text-gray-800 px-5 py-2.5 rounded-full font-semibold shadow-md hover:bg-gray-50 transition flex items-center gap-2 group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                <span>Login</span>
+            </a>
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}"
+                    class="bg-primary text-white px-5 py-2.5 rounded-full font-semibold shadow-md hover:bg-primary/90 transition flex items-center gap-2 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span>Register</span>
+                </a>
+            @endif
+        @endauth
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenu" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="lg:hidden pb-4" style="display: none;">
+        @auth
+            <a href="{{ url('/dashboard') }}" class="flex py-3 px-4 mt-2 text-white bg-primary rounded-lg font-semibold shadow hover:bg-primary/90 transition items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
+                </svg>
+                Dashboard
+            </a>
+        @else
+            <a href="{{ route('login') }}" class="flex py-3 px-4 mt-2 text-gray-800 bg-white border border-gray-300 rounded-lg font-semibold shadow hover:bg-gray-50 transition items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                Login
+            </a>
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="flex py-3 px-4 mt-2 text-white bg-primary rounded-lg font-semibold shadow hover:bg-primary/90 transition items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Register
+                </a>
+            @endif
+        @endauth
+    </div>
       </div>
     </nav>
 

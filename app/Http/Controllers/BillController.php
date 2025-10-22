@@ -6,11 +6,39 @@ use App\Http\Requests\BillStoreRequest;
 use App\Models\Bill;
 use App\Models\Tenant;
 use App\Events\BillCreated;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class BillController extends Controller
 {
+    public function index(Tenant $tenant)
+    {
+        $tenants = Tenant::orderBy('name')->get();
+        $bills = Bill::with('tenant')->latest('id')->limit(50)->get();
+
+    // Server-side calculations for presentation
+    $vatRate = config('billing.vat_rate');
+    $payeFixed = config('billing.paye_amount');
+    $rubbishFee = config('billing.rubbish_fee');
+    $billRows = $bills->map(function($bill) use ($vatRate,$payeFixed,$rubbishFee){
+        $base = $bill->total_amount; // persisted base (units * unit price)
+        $vat = (int) round($base * $vatRate);
+        $paye = $payeFixed;
+        $rubbish = $rubbishFee;
+        $grand = $base + $vat + $paye + $rubbish;
+        return [
+            'tenant_display' => $bill->tenant->name.' (Room '.$bill->tenant->room_number.')',
+            'previous_reading' => $bill->previous_reading,
+            'current_reading' => $bill->current_reading,
+            'units_used' => $bill->units_used,
+            'base_amount' => $base,
+            'rubbish' => $rubbish,
+            'grand_total' => $grand,
+        ];
+    });
+    $grandTotal = $billRows->sum('grand_total');
+
+    return view('index', compact('tenants','billRows','grandTotal'));
+    }
+
     public function store(BillStoreRequest $request)
     {
         $tenant = Tenant::findOrFail($request->tenant_id);
