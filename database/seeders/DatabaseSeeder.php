@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tenant;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,7 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         // Admin account for local development
         User::factory()->create([
             'name' => 'Abraham',
@@ -23,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        // Create Tenants
-        Tenant::factory(10)->create();
+        // Seed Tenants
+        $this->call(TenantSeeder::class);
     }
 }
